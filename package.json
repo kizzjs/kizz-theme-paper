@@ -1,0 +1,8 @@
+{
+  "name": "kizz-theme-paper",
+  "version": "0.0.1",
+  "dependencies": {
+    "jade": "latest",
+    "mkdirp": "^0.5.0"
+  }
+}
