@@ -15,7 +15,8 @@ module.exports = function (app) {
         var render = function(template, locals) {
             var opts = {
                 pretty: true,
-                compileDebug: true
+                compileDebug: true,
+                site: ctx.config.site
             };
             return jade.renderFile(__dirname + '/jade/' + template + '.jade', _.defaults(opts, locals));
         };

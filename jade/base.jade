@@ -2,6 +2,8 @@ doctype html
 html(charset="UTF-8")
   head
     block title
-      title Default Title
+      title #{site.name}
   body
+    header
+      a(href="#{site.url}") #{site.name}
     block content
