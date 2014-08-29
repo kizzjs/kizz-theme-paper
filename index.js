@@ -20,9 +20,20 @@ module.exports = function (app) {
 
         this.logger.debug("kizz theme paper: init");
 
-        this.logger.debug(this.cwd);
+        var ctx = this;
+
+        var writeFile = function(file, data) {
+            file = ctx.config.target + file;
+            ctx.logger.debug('Write: ' + file);
+            fs.writeFile(file, data, function(err) {
+                if(err) {
+                    throw(err);
+                }
+            });
+        };
 
         this.logger.debug(this);
+
 
         ////////////////////////////
         //
@@ -44,13 +55,23 @@ module.exports = function (app) {
 
         ////////////////////////////
         //
-        // update index
+        // update index.html & db.json
         //
         ////////////////////////////
 
-        var tags = this.changedFiles.concat(this.removedFiles).map(function(file) {
-            return file.tags;
+        var db = this.newFiles.concat(this.changedFiles, this.unchangedFiles).filter(function(file) {
+            return typeof file.content !== "undefined";
+        }).map(function(file) {
+            return {
+                title: file.title,
+                tags: file.tags,
+                path: file.path
+            };
         });
+
+        ctx.logger.debug(db);
+
+        writeFile('db.json', JSON.stringify(db));
 
         this.logger.debug("kizz theme paper: done");
 
