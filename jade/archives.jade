@@ -1,0 +1,6 @@
+extends ./base.jade
+
+block content
+  ul
+    each post in #{posts}
+      li= post.title

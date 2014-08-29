@@ -2,29 +2,26 @@ var jade = require("jade"),
     fs = require("fs"),
     mkdirp = require("mkdirp");
 
-var compile = function(options) {
-    jade.renderFile(
-      "theme/templates/" + options.template,
-      {globals: options.globals},
-      function(err, html) {
-          if (err) throw err;
-          fs.writeFile(options.target, html);
-      }
-    );
-};
-
 module.exports = function (app) {
     app.use(function *(next) {
         // run plugins first, theme should be called at last
         yield next;
 
-        this.logger.debug("kizz theme paper: init");
+        this.logger.debug("kizz theme paper: INIT");
 
         var ctx = this;
 
+        var render = function(template, locals) {
+            return jade.renderFile(__dirname + '/jade/' + template + '.jade', {
+                pretty: true,
+                compileDebug: true,
+                self: locals
+            });
+        };
+
         var writeFile = function(file, data) {
             file = ctx.config.target + file;
-            ctx.logger.debug('Write: ' + file);
+            ctx.logger.debug('WriteFile: ' + file);
             fs.writeFile(file, data, function(err) {
                 if(err) {
                     throw(err);
@@ -59,7 +56,9 @@ module.exports = function (app) {
         //
         ////////////////////////////
 
-        var db = this.newFiles.concat(this.changedFiles, this.unchangedFiles).filter(function(file) {
+        var files = this.newFiles.concat(this.changedFiles, this.unchangedFiles);
+
+        var posts = files.filter(function(file) {
             return typeof file.content !== "undefined";
         }).map(function(file) {
             return {
@@ -69,11 +68,11 @@ module.exports = function (app) {
             };
         });
 
-        ctx.logger.debug(db);
+        writeFile('db.json', JSON.stringify(posts));
 
-        writeFile('db.json', JSON.stringify(db));
+        writeFile('index.html', render('archives', {posts: posts}));
 
-        this.logger.debug("kizz theme paper: done");
+        this.logger.debug("kizz theme paper: DONE");
 
     });
 };
