@@ -1,6 +1,7 @@
 var jade = require("jade"),
     fs = require("fs"),
-    mkdirp = require("mkdirp");
+    mkdirp = require("mkdirp"),
+    _ = require("lodash");
 
 module.exports = function (app) {
     app.use(function *(next) {
@@ -12,11 +13,11 @@ module.exports = function (app) {
         var ctx = this;
 
         var render = function(template, locals) {
-            return jade.renderFile(__dirname + '/jade/' + template + '.jade', {
+            var opts = {
                 pretty: true,
-                compileDebug: true,
-                self: locals
-            });
+                compileDebug: true
+            };
+            return jade.renderFile(__dirname + '/jade/' + template + '.jade', _.defaults(opts, locals));
         };
 
         var writeFile = function(file, data) {
