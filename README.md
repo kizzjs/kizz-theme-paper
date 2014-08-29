@@ -1,8 +1,12 @@
-kizz-theme-paper
-================
+# kizz-theme-paper
 
-Default theme for KIZZ (Static Site Generator)
+Default theme for KIZZ
 
-## Requires:
+## Features
 
-- kizz-guess-time
+- Jade based
+
+- Frontend based tag
+
+- Frontend based searching
+

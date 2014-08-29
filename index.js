@@ -11,43 +11,27 @@ var compile = function(options) {
           fs.writeFile(options.target, html);
       }
     );
-}
+};
 
 module.exports = function (app) {
     app.use(function *(next) {
         // run plugins first, theme should be called at last
         yield next;
 
-        this.logger.debug(this);
-
         this.logger.debug("kizz theme paper: init");
 
-        var files = this.changedFiles.concat(this.unchangedFiles);
+        this.logger.debug(this.cwd);
 
-        var getTarget = function(file) {
-            
-        }
+        this.logger.debug(this);
 
         ////////////////////////////
         //
-        // handle changed files
+        // handle new files & changed files
         //
         ////////////////////////////
 
-        this.changedFiles.forEach(function() {
+        this.changedFiles.concat(this.newFiles).forEach(function(file) {
         });
-
-        var themeDir = "";
-
-        var route = function(file) {
-            var template = file.content ? "post.jade" : null;
-            return {
-                target: file.path,
-                template: template,
-                source: file.path,
-                globals: file
-            }
-        }
 
         ////////////////////////////
         //
@@ -55,15 +39,20 @@ module.exports = function (app) {
         //
         ////////////////////////////
 
+        this.removedFiles.forEach(function(file) {
+        });
 
         ////////////////////////////
         //
-        // tags & index
+        // update index
         //
         ////////////////////////////
 
         var tags = this.changedFiles.concat(this.removedFiles).map(function(file) {
             return file.tags;
         });
+
+        this.logger.debug("kizz theme paper: done");
+
     });
-}
+};
