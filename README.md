@@ -9,4 +9,3 @@ Default theme for KIZZ
 - Frontend based tag
 
 - Frontend based searching
-
