@@ -8,8 +8,6 @@ module.exports = function (app) {
         // run plugins first, theme should be called at last
         yield next;
 
-        this.logger.debug("kizz theme paper: INIT");
-
         var ctx = this;
 
         var render = function(template, locals) {
@@ -23,16 +21,13 @@ module.exports = function (app) {
 
         var writeFile = function(file, data) {
             file = ctx.config.target + file;
-            ctx.logger.debug('WriteFile: ' + file);
+            ctx.logger.info('WriteFile: ' + file);
             fs.writeFile(file, data, function(err) {
                 if(err) {
                     throw(err);
                 }
             });
         };
-
-        this.logger.debug(this);
-
 
         ////////////////////////////
         //
@@ -73,8 +68,6 @@ module.exports = function (app) {
         writeFile('db.json', JSON.stringify(posts));
 
         writeFile('index.html', render('archives', {posts: posts}));
-
-        this.logger.debug("kizz theme paper: DONE");
 
     });
 };
