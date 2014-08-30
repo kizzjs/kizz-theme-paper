@@ -1,0 +1,9 @@
+extends ./base.jade
+
+block content
+  article
+    header= post.title
+      ul.tags
+        each tag in post.tags
+          li= tag
+    main!= post.content

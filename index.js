@@ -1,10 +1,12 @@
 var jade = require("jade"),
-    fs = require("fs"),
-    mkdirp = require("mkdirp"),
-    _ = require("lodash");
+    fs = require("co-fs"),
+    fsPlus = require("co-fs-plus"),
+    _ = require("lodash"),
+    path = require("path");
 
 module.exports = function (app) {
     app.use(function *(next) {
+
         // run plugins first, theme should be called at last
         yield next;
 
@@ -19,24 +21,12 @@ module.exports = function (app) {
             return jade.renderFile(__dirname + '/jade/' + template + '.jade', _.defaults(opts, locals));
         };
 
-        var writeFile = function(file, data) {
+        var writeFile = function *(file, data) {
             file = ctx.config.target + file;
             ctx.logger.info('WriteFile: ' + file);
-            fs.writeFile(file, data, function(err) {
-                if(err) {
-                    throw(err);
-                }
-            });
+            yield fsPlus.mkdirp(path.dirname(file));
+            yield fs.writeFile(file, data);
         };
-
-        ////////////////////////////
-        //
-        // handle new files & changed files
-        //
-        ////////////////////////////
-
-        this.changedFiles.concat(this.newFiles).forEach(function(file) {
-        });
 
         ////////////////////////////
         //
@@ -45,6 +35,19 @@ module.exports = function (app) {
         ////////////////////////////
 
         this.removedFiles.forEach(function(file) {
+        });
+
+        ////////////////////////////
+        //
+        // handle new files & changed files
+        //
+        ////////////////////////////
+
+        yield this.changedFiles.concat(this.newFiles).map(function(file) {
+            if(typeof file.content !== "undefined") {
+                var target = path.dirname(file.path) + '/' + path.basename(file.path, path.extname(file.path));
+                return writeFile(target + '.html', render('post', {post: file}));
+            }
         });
 
         ////////////////////////////
@@ -65,9 +68,9 @@ module.exports = function (app) {
             };
         });
 
-        writeFile('db.json', JSON.stringify(posts));
+        yield writeFile('db.json', JSON.stringify(posts));
 
-        writeFile('index.html', render('archives', {posts: posts}));
+        yield writeFile('index.html', render('archives', {posts: posts}));
 
     });
 };
