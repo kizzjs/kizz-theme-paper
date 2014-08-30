@@ -44,27 +44,37 @@ module.exports = function (app) {
         if(this.argv[2] === "rebuild" && isNaN(parseInt(this.argv[3]))) {
             this.logger.info('Remove Directory: ' + this.config.target);
             yield fsPlus.rimraf(this.config.target);
+        } else {
+            yield this.removedFiles.map(function(file) {
+                var filePath;
+                if(typeof file.content !== "undefined") {
+                    filePath = path.dirname(file.path) + '/' + path.basename(file.path, path.extname(file.path)) + '.html';
+                } else {
+                    filePath = file.path;
+                }
+                // remove empty dirs
+                var iter = function *(_path) {
+                    var dirname = path.dirname(_path);
+                    if(dirname !== _path) {
+                        var absDirname = path.resolve(ctx.config.target, dirname);
+                        if((yield fs.readdir(absDirname)).length === 0) {
+                            ctx.logger.info('Remove Directory: ' + absDirname);
+                            yield fs.rmdir(absDirname);
+                        }
+                        yield iter(dirname);
+                    }
+                };
+                return function *() {
+                    try {
+                        ctx.logger.info('Remove File: ' + filePath);
+                        yield fs.unlink(path.resolve(ctx.config.target, filePath));
+                        yield iter(filePath);
+                    } catch(e) {
+                        ctx.logger.error(e);
+                    }
+                };
+            });
         }
-
-        // todo: remove empty dirs
-        yield this.removedFiles.map(function(file) {
-            var filePath;
-            if(typeof file.content !== "undefined") {
-                filePath = path.dirname(file.path) + '/' + path.basename(file.path, path.extname(file.path)) + '.html';
-            } else {
-                filePath = file.path;
-            }
-            // remove empty dirs
-            var iter = function *() {
-                var dirname = path.dirname(filePath);
-                console.log(dirname);
-                console.log(path.dirname(dirname));
-            };
-            return function *() {
-                yield iter();
-                yield fs.unlink(path.resolve(ctx.config.target, filePath));
-            };
-        });
 
         ////////////////////////////
         //
