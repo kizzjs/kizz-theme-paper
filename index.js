@@ -28,13 +28,53 @@ module.exports = function (app) {
             yield fs.writeFile(file, data);
         };
 
+        var copyFile = function *(from, to) {
+            ctx.logger.info('CopyFile: ' + to);
+            var contents = yield fs.readFile(from);
+            yield fsPlus.mkdirp(path.dirname(to));
+            yield fs.writeFile(to, contents);
+        };
+
         ////////////////////////////
         //
         // handle removed files
         //
         ////////////////////////////
 
-        this.removedFiles.forEach(function(file) {
+        if(this.argv[2] === "rebuild" && isNaN(parseInt(this.argv[3]))) {
+            this.logger.info('Remove Directory: ' + this.config.target);
+            yield fsPlus.rimraf(this.config.target);
+        }
+
+        // todo: remove empty dirs
+        yield this.removedFiles.map(function(file) {
+            var filePath;
+            if(typeof file.content !== "undefined") {
+                filePath = path.dirname(file.path) + '/' + path.basename(file.path, path.extname(file.path)) + '.html';
+            } else {
+                filePath = file.path;
+            }
+            // remove empty dirs
+            var iter = function *() {
+                var dirname = path.dirname(filePath);
+                console.log(dirname);
+                console.log(path.dirname(dirname));
+            };
+            return function *() {
+                yield iter();
+                yield fs.unlink(path.resolve(ctx.config.target, filePath));
+            };
+        });
+
+        ////////////////////////////
+        //
+        // handle static/
+        //
+        ////////////////////////////
+
+        var staticFiles = yield fs.readdir(__dirname + '/static/');
+        yield staticFiles.map(function(file) {
+            return copyFile(__dirname + '/static/' + file, ctx.config.target + 'static/' + file);
         });
 
         ////////////////////////////
@@ -47,6 +87,9 @@ module.exports = function (app) {
             if(typeof file.content !== "undefined") {
                 var target = path.dirname(file.path) + '/' + path.basename(file.path, path.extname(file.path));
                 return writeFile(target + '.html', render('post', {post: file}));
+            } else {
+                // copy static files
+                return copyFile(file.absolutePath, ctx.config.target + file.path);
             }
         });
 
