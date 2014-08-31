@@ -1,7 +1,12 @@
 doctype html
 html(charset="UTF-8")
   head
-    link(href="#{baseURL('static/styles.css')}", rel="stylesheet")
+    // To view prerender
+    // use chrome://net-internals/#prerender instead of dev tools
+    // or it will be canceled
+    link(rel="kizz-base-url", href="#{baseURL('')}")
+    link(rel="kizz-db prefetch prerender", href="#{baseURL('db.json')}")
+    link(rel="stylesheet", href="#{baseURL('static/styles.css')}")
     block title
       title #{site.name}
   body
@@ -9,8 +14,13 @@ html(charset="UTF-8")
       h1
         a(href="#{baseURL('index.html')}") #{site.name}
       p #{site.description}
+      input#search
     main#main
       block content
     footer#footer
       | Copyright (C) Kizz Team. All rights reserved.
+    script
+    
     script(src="#{baseURL('static/js/prism.js')}")
+    script(src="#{baseURL('static/js/jquery.min.js')}")
+    script(src="#{baseURL('static/js/main.js')}")

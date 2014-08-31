@@ -14,7 +14,7 @@ module.exports = function (app) {
 
         var render = function(template, locals) {
             var opts = {
-                pretty: false,
+                pretty: true,
                 compileDebug: true,
                 site: ctx.config.site,
                 baseURL: function(_path) {
@@ -88,7 +88,9 @@ module.exports = function (app) {
 
         var staticFiles = [
             "styles.css",
-            "js/prism.js"
+            "js/prism.js",
+            "js/jquery.min.js",
+            "js/main.js"
         ];
         yield staticFiles.map(function(file) {
             return copyFile(path.join(__dirname, 'static',  file),
@@ -136,7 +138,14 @@ module.exports = function (app) {
                 file.link = path.join(path.dirname(file.path),
                                       path.basename(file.path, path.extname(file.path)) + ".html");
             }
-            return file;
+            
+            return {
+                modificationTime: file.modificationTime,
+                path: file.path,
+                title: file.title,
+                tags: file.tags,
+                link: file.link
+            };
         });
 
         yield writeFile('db.json', JSON.stringify(posts));

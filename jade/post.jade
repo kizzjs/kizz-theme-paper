@@ -9,5 +9,8 @@ block content
         .key Update:
         .value #{post.modificationTime}
         .key Tags:
-        .value #{post.tags.join(', ') || 'Null'}
+        .value
+          ul
+            each tag in post.tags
+              li.tag= tag
     main!= post.content
