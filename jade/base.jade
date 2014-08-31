@@ -5,6 +5,7 @@ html(charset="UTF-8")
     block title
       title #{site.name}
   body
-    header
+    header#header
       a(href="#{baseURL('index.html')}") #{site.name}
-    block content
+    main#main
+      block content

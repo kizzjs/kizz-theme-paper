@@ -1,3 +1,62 @@
+body,
+header,
+footer,
+a,
+ul,
+li {
+  padding: 0;
+  margin: 0;
+}
+ul,
+li {
+  list-style: none;
+}
+a {
+  text-decoration: none;
+  color: #1e90ff;
+}
+a:hover {
+  text-decoration: underline;
+}
+h1 {
+  font-size: 36px;
+}
 body {
-  background: #eee;
+  background: #fff;
+  color: #555;
+  font-family: "Helvetica Neue", Helvetica, "Nimbus Sans L", Arial, "Liberation Sans", "Hiragino Sans GB", "Source Han Sans CN Normal", "Microsoft YaHei", "Wenquanyi Micro Hei", "WenQuanYi Zen Hei", "ST Heiti", SimHei, "WenQuanYi Zen Hei Sharp", sans-serif;
+}
+#header {
+  font-size: 48px;
+  padding: 48px;
+  background: #1e90ff;
+  font-weight: bold;
+}
+#header a {
+  color: #fff;
+}
+#main {
+  padding: 48px;
+}
+#main h1 {
+  font-size: 24px;
+}
+#main article {
+  margin-bottom: 48px;
+}
+.tags > li {
+  display: inline-block;
+  padding-right: 12px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: color 1s;
+  color: #999;
+  border: 1px solid #ccc;
+  text-align: center;
+  padding: 5px;
+  margin-right: 5px;
+  border-radius: 8px;
+}
+.tags > li:hover {
+  color: #1e90ff;
 }

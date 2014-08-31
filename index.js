@@ -14,14 +14,15 @@ module.exports = function (app) {
 
         var render = function(template, locals) {
             var opts = {
-                pretty: true,
+                pretty: false,
                 compileDebug: true,
                 site: ctx.config.site,
                 baseURL: function(_path) {
                     return path.normalize(path.join(locals.baseURI, _path));
                 }
             };
-            return jade.renderFile(path.join(__dirname, 'jade',  template + '.jade'), _.defaults(opts, locals));
+            var html = jade.renderFile(path.join(__dirname, 'jade',  template + '.jade'), _.defaults(opts, locals));
+            return html;
         };
 
         var writeFile = function *(file, data) {
@@ -128,12 +129,11 @@ module.exports = function (app) {
         var posts = files.filter(function(file) {
             return typeof file.content !== "undefined";
         }).map(function(file) {
-            return {
-                title: file.title,
-                tags: file.tags,
-                link: file.link || path.join(path.dirname(file.path),
-                                             path.basename(file.path, path.extname(file.path)) + ".html")
-            };
+            if(!file.link) {
+                file.link = path.join(path.dirname(file.path),
+                                      path.basename(file.path, path.extname(file.path)) + ".html");
+            }
+            return file;
         });
 
         yield writeFile('db.json', JSON.stringify(posts));
