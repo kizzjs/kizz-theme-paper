@@ -6,8 +6,8 @@ block content
       header
         h1
           a(href="#{baseURL(post.link)}") #{post.title}
-        ul.tags
-          each tag in post.tags
-            li= tag
-      main !{post.content}
-      
+        .meta
+          .key Update:
+          .value #{post.modificationTime}
+          .key Tags:
+          .value #{post.tags.join(', ') || 'Null'}

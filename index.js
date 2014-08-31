@@ -124,6 +124,8 @@ module.exports = function (app) {
         //
         ////////////////////////////
 
+        // todo: sort by updateTime
+
         var files = this.newFiles.concat(this.changedFiles, this.unchangedFiles);
 
         var posts = files.filter(function(file) {
