@@ -9,3 +9,5 @@ Default theme for KIZZ
 - Frontend based tag
 
 - Frontend based searching
+
+- Syntax Highlighting (prismjs)
