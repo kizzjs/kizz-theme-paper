@@ -1,4 +1,6 @@
-theme-color = #9ACD32
+@import 'prism'
+
+theme-color = #1E90FF
 inner-padding = 48px
 
 // common
@@ -10,14 +12,18 @@ body, header, footer, a, ul, li, h1, p
 p
   line-height 2em
 
+code, pre
+  font-size 14px
+
 ul, li
   list-style none
 
 a
   text-decoration none
   color theme-color
+  transition color .5s
   &:hover
-    text-decoration underline
+    color darken(theme-color, 25%)
 
 h1
   font-size 36px
@@ -55,6 +61,14 @@ body
 .meta
   font-size 14px
   line-height 28px
+  ul, li
+    display inline-block
+  li
+    padding-right .5em
+    &:hover
+      color theme-color
+      cursor pointer
+      transition color .5s
   .key, .value
     display inline-block
     margin-right .5em

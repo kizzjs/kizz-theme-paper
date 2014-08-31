@@ -87,7 +87,8 @@ module.exports = function (app) {
         ////////////////////////////
 
         var staticFiles = [
-            "styles.css"
+            "styles.css",
+            "js/prism.js"
         ];
         yield staticFiles.map(function(file) {
             return copyFile(path.join(__dirname, 'static',  file),
