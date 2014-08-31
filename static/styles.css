@@ -33,22 +33,25 @@ body {
 }
 #header {
   padding: 48px;
-  background: #1e90ff;
+  border-bottom: 1px solid #1e90ff;
   font-weight: bold;
-  color: #fff;
+  color: #1e90ff;
+  text-align: center;
 }
 #header h1 {
-  font-size: 48px;
-  background: #fff;
+  font-size: 36px;
+  background: #1e90ff;
   display: inline-block;
   padding: 0.3em;
   margin-bottom: 0.25em;
 }
 #header h1 a {
-  color: #1e90ff;
+  color: #fff;
 }
 #main {
   padding: 48px;
+  width: 600px;
+  margin: 0 auto;
 }
 #main h1 {
   font-size: 24px;
@@ -68,8 +71,12 @@ body {
 .meta .key {
   font-weight: bold;
 }
-article {
-  border-left: 3px solid #1e90ff;
-  padding-left: 48px;
-  max-width: 800px;
+article main {
+  margin-top: 1em;
+  padding-top: 1em;
+}
+#footer {
+  text-align: center;
+  font-size: 12px;
+  padding: 48px;
 }

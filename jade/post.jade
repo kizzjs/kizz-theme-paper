@@ -3,8 +3,11 @@ extends ./base.jade
 block content
   article
     header
-      h1 #{post.title}
-      ul.tags
-        each tag in post.tags
-          li= tag
+      h1
+        a(href="#") #{post.title}
+      .meta
+        .key Update:
+        .value #{post.modificationTime}
+        .key Tags:
+        .value #{post.tags.join(', ') || 'Null'}
     main!= post.content

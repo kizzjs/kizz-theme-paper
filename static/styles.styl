@@ -27,21 +27,24 @@ body
 
 #header
   padding inner-padding
-  background theme-color
+  border-bottom 1px solid theme-color
   // background-image radial-gradient(farthest-corner at 100px 45px , theme-color 0%, hue(theme-color, 60deg) 100%);
   font-weight bold
-  color #fff
+  color theme-color
+  text-align center
   h1
-    font-size 48px
-    background #fff
+    font-size 36px
+    background theme-color
     display inline-block
     padding .3em
     margin-bottom .25em
     a
-      color theme-color
+      color #fff
 
 #main
   padding inner-padding
+  width 600px
+  margin 0 auto
   h1
     font-size 24px
   article
@@ -56,8 +59,12 @@ body
   .key
     font-weight bold
 
-
 article
-  border-left 3px solid theme-color
-  padding-left 48px
-  max-width 800px
+  main
+    margin-top 1em
+    padding-top 1em
+
+#footer
+  text-align center
+  font-size 12px
+  padding inner-padding
