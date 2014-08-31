@@ -16,7 +16,10 @@ module.exports = function (app) {
             var opts = {
                 pretty: true,
                 compileDebug: true,
-                site: ctx.config.site
+                site: ctx.config.site,
+                baseURL: function(_path) {
+                    return path.normalize(path.join(locals.baseURI, _path));
+                }
             };
             return jade.renderFile(path.join(__dirname, 'jade',  template + '.jade'), _.defaults(opts, locals));
         };
@@ -82,7 +85,9 @@ module.exports = function (app) {
         //
         ////////////////////////////
 
-        var staticFiles = yield fs.readdir(path.join(__dirname, 'static'));
+        var staticFiles = [
+            "styles.css"
+        ];
         yield staticFiles.map(function(file) {
             return copyFile(path.join(__dirname, 'static',  file),
                             path.join(ctx.config.target, 'static', file));
