@@ -96,7 +96,10 @@ module.exports = function (app) {
         yield this.changedFiles.concat(this.newFiles).map(function(file) {
             if(typeof file.content !== "undefined") {
                 var target = path.dirname(file.path) + '/' + path.basename(file.path, path.extname(file.path));
-                return writeFile(target + '.html', render('post', {post: file}));
+                return writeFile(target + '.html', render('post', {
+                    baseURI: path.relative(path.resolve(ctx.config.target, path.dirname(file.path)), ctx.config.target),
+                    post: file
+                }));
             } else {
                 // copy static files
                 return copyFile(file.absolutePath, ctx.config.target + file.path);
@@ -123,7 +126,10 @@ module.exports = function (app) {
 
         yield writeFile('db.json', JSON.stringify(posts));
 
-        yield writeFile('index.html', render('archives', {posts: posts}));
+        yield writeFile('index.html', render('archives', {
+            baseURI: './',
+            posts: posts
+        }));
 
     });
 };
