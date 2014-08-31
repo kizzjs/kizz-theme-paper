@@ -27,10 +27,13 @@ body {
   font-family: "Helvetica Neue", Helvetica, "Nimbus Sans L", Arial, "Liberation Sans", "Hiragino Sans GB", "Source Han Sans CN Normal", "Microsoft YaHei", "Wenquanyi Micro Hei", "WenQuanYi Zen Hei", "ST Heiti", SimHei, "WenQuanYi Zen Hei Sharp", sans-serif;
 }
 #header {
-  font-size: 48px;
   padding: 48px;
   background: #1e90ff;
   font-weight: bold;
+  color: #fff;
+}
+#header h1 {
+  font-size: 48px;
 }
 #header a {
   color: #fff;

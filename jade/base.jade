@@ -6,6 +6,8 @@ html(charset="UTF-8")
       title #{site.name}
   body
     header#header
-      a(href="#{baseURL('index.html')}") #{site.name}
+      h1
+        a(href="#{baseURL('index.html')}") #{site.name}
+      p #{site.description}
     main#main
       block content
