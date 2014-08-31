@@ -18,7 +18,7 @@ li {
 }
 a {
   text-decoration: none;
-  color: #1e90ff;
+  color: #9acd32;
 }
 a:hover {
   text-decoration: underline;
@@ -33,14 +33,14 @@ body {
 }
 #header {
   padding: 48px;
-  border-bottom: 1px solid #1e90ff;
+  border-bottom: 1px solid #9acd32;
   font-weight: bold;
-  color: #1e90ff;
+  color: #9acd32;
   text-align: center;
 }
 #header h1 {
   font-size: 36px;
-  background: #1e90ff;
+  background: #9acd32;
   display: inline-block;
   padding: 0.3em;
   margin-bottom: 0.25em;
