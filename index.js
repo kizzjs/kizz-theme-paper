@@ -18,11 +18,11 @@ module.exports = function (app) {
                 compileDebug: true,
                 site: ctx.config.site
             };
-            return jade.renderFile(__dirname + '/jade/' + template + '.jade', _.defaults(opts, locals));
+            return jade.renderFile(path.join(__dirname, 'jade',  template + '.jade'), _.defaults(opts, locals));
         };
 
         var writeFile = function *(file, data) {
-            file = ctx.config.target + file;
+            file = path.join(ctx.config.target, file);
             ctx.logger.info('WriteFile: ' + file);
             yield fsPlus.mkdirp(path.dirname(file));
             yield fs.writeFile(file, data);
@@ -48,7 +48,7 @@ module.exports = function (app) {
             yield this.removedFiles.map(function(file) {
                 var filePath;
                 if(typeof file.content !== "undefined") {
-                    filePath = path.dirname(file.path) + '/' + path.basename(file.path, path.extname(file.path)) + '.html';
+                    filePath = path.join(path.dirname(file.path), path.basename(file.path, path.extname(file.path)) + '.html');
                 } else {
                     filePath = file.path;
                 }
@@ -56,7 +56,7 @@ module.exports = function (app) {
                 var iter = function *(_path) {
                     var dirname = path.dirname(_path);
                     if(dirname !== _path) {
-                        var absDirname = path.resolve(ctx.config.target, dirname);
+                        var absDirname = path.join(ctx.config.target, dirname);
                         if((yield fs.readdir(absDirname)).length === 0) {
                             ctx.logger.info('Remove Directory: ' + absDirname);
                             yield fs.rmdir(absDirname);
@@ -67,7 +67,7 @@ module.exports = function (app) {
                 return function *() {
                     try {
                         ctx.logger.info('Remove File: ' + filePath);
-                        yield fs.unlink(path.resolve(ctx.config.target, filePath));
+                        yield fs.unlink(path.join(ctx.config.target, filePath));
                         yield iter(filePath);
                     } catch(e) {
                         ctx.logger.error(e);
@@ -82,9 +82,10 @@ module.exports = function (app) {
         //
         ////////////////////////////
 
-        var staticFiles = yield fs.readdir(__dirname + '/static/');
+        var staticFiles = yield fs.readdir(path.join(__dirname, 'static'));
         yield staticFiles.map(function(file) {
-            return copyFile(__dirname + '/static/' + file, ctx.config.target + 'static/' + file);
+            return copyFile(path.join(__dirname, 'static',  file),
+                            path.join(ctx.config.target, 'static', file));
         });
 
         ////////////////////////////
@@ -95,14 +96,19 @@ module.exports = function (app) {
 
         yield this.changedFiles.concat(this.newFiles).map(function(file) {
             if(typeof file.content !== "undefined") {
-                var target = path.dirname(file.path) + '/' + path.basename(file.path, path.extname(file.path));
+                var target = path.join(
+                    path.dirname(file.path),
+                    path.basename(file.path, path.extname(file.path))
+                );
                 return writeFile(target + '.html', render('post', {
-                    baseURI: path.relative(path.resolve(ctx.config.target, path.dirname(file.path)), ctx.config.target),
+                    baseURI: path.relative(path.join(ctx.config.target, path.dirname(file.path)),
+                                           ctx.config.target),
                     post: file
                 }));
             } else {
                 // copy static files
-                return copyFile(file.absolutePath, ctx.config.target + file.path);
+                return copyFile(file.absolutePath,
+                                path.join(ctx.config.target, file.path));
             }
         });
 
@@ -120,14 +126,15 @@ module.exports = function (app) {
             return {
                 title: file.title,
                 tags: file.tags,
-                path: file.path
+                link: file.link || path.join(path.dirname(file.path),
+                                             path.basename(file.path, path.extname(file.path)) + ".html")
             };
         });
 
         yield writeFile('db.json', JSON.stringify(posts));
 
         yield writeFile('index.html', render('archives', {
-            baseURI: './',
+            baseURI: '.',
             posts: posts
         }));
 

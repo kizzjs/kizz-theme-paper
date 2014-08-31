@@ -2,7 +2,8 @@ extends ./base.jade
 
 block content
   each post in posts
-    artilce= post.title
+    artilce
+      a(href="#{post.link}") #{post.title}
       ul.tags
         each tag in post.tags
           li= tag

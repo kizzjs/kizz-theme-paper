@@ -1,11 +1,10 @@
 doctype html
 html(charset="UTF-8")
   head
-    base(href="#{baseURI}")
-    link(href="static/styles.css", rel="stylesheet")
+    link(href="#{baseURI}/static/styles.css", rel="stylesheet")
     block title
       title #{site.name}
   body
     header
-      a(href="#{site.url}") #{site.name}
+      a(href="#{baseURI}/index.html") #{site.name}
     block content
