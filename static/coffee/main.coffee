@@ -1,11 +1,27 @@
+window.db = new DB
+
+baseURL = $('[rel="kizz-base-url"]').attr('href')
+
 delay = (time, fn) -> setTimeout fn, time
+
+###############
+#
+# Tag
+#
+###############
+
+$('body').on 'click', 'li.tag', ->
+    tag = $(this).text()
+
+###############
+#
+# Search
+#
+###############
+
 search = (keyword) ->
-    console.log 'search', keyword
-    db = $('[rel~="kizz-db"]').attr('href')
-    baseURL = $('[rel="kizz-base-url"]').attr('href')
-    console.log db
-    $.get db, (posts) ->
-        match = posts.filter (post) ->
+    kizzDB.ready ->
+        match = kizzDB.filter (post) ->
             JSON.stringify(post).indexOf(keyword) > -1
         if match.length > 0
             html = match.map (post) -> """
@@ -31,3 +47,4 @@ search = (keyword) ->
 $('#search').on 'input', ->
     keyword = $(this).val()
     delay 1, -> search keyword
+

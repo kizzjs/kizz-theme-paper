@@ -150,7 +150,11 @@ module.exports = function (app) {
             };
         });
 
-        yield writeFile('db.json', JSON.stringify(posts));
+        var json = JSON.stringify(posts);
+
+        var jsonp = 'db.setData(' + json + ');';
+
+        yield writeFile('db.jsonp', jsonp);
 
         yield writeFile('index.html', render('archives', {
             baseURI: '.',

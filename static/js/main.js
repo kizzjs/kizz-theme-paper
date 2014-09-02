@@ -6,10 +6,14 @@
     return setTimeout(fn, time);
   };
 
+  window.kizzDBJSONPHandler = function(db) {
+    console.log('db is ready');
+    return console.log(db);
+  };
+
   search = function(keyword) {
-    var baseURL, db;
+    var baseURL;
     console.log('search', keyword);
-    db = $('[rel~="kizz-db"]').attr('href');
     baseURL = $('[rel="kizz-base-url"]').attr('href');
     console.log(db);
     return $.get(db, function(posts) {

@@ -5,7 +5,6 @@ html(charset="UTF-8")
     // use chrome://net-internals/#prerender instead of dev tools
     // or it will be canceled
     link(rel="kizz-base-url", href="#{baseURL('')}")
-    link(rel="kizz-db prefetch prerender", href="#{baseURL('db.json')}")
     link(rel="stylesheet", href="#{baseURL('static/styles.css')}")
     block title
       title #{site.name}
@@ -24,3 +23,4 @@ html(charset="UTF-8")
     script(src="#{baseURL('static/js/prism.js')}")
     script(src="#{baseURL('static/js/jquery.min.js')}")
     script(src="#{baseURL('static/js/main.js')}")
+    script(src="#{baseURL('db.jsonp')}")
