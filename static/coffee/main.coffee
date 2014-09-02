@@ -1,23 +1,21 @@
+# DB
+
 window.db = new DB
+
+# Meta Data
 
 baseURL = $('[rel="kizz-base-url"]').attr('href')
 
+# Helpers
+
 delay = (time, fn) -> setTimeout fn, time
 
-###############
-#
 # Tag
-#
-###############
 
 $('body').on 'click', 'li.tag', ->
     tag = $(this).text()
 
-###############
-#
 # Search
-#
-###############
 
 search = (keyword) ->
     kizzDB.ready ->

@@ -1,7 +1,8 @@
 class DB
 
     setData: (@data) ->
-        fn?() for fn in @todo
+        if @todo?
+            fn?() for fn in @todo
 
     ready: (fn) ->
         if @data?
