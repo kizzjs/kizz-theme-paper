@@ -2,7 +2,8 @@ var jade = require("jade"),
     fs = require("co-fs"),
     fsPlus = require("co-fs-plus"),
     _ = require("lodash"),
-    path = require("path");
+    path = require("path"),
+    beautifyHTML = require('js-beautify').html;
 
 module.exports = function (app) {
     app.use(function *(next) {
@@ -14,7 +15,7 @@ module.exports = function (app) {
 
         var render = function(template, locals) {
             var opts = {
-                pretty: true,
+                pretty: false,
                 compileDebug: true,
                 site: ctx.config.site,
                 baseURL: function(_path) {
@@ -22,6 +23,7 @@ module.exports = function (app) {
                 }
             };
             var html = jade.renderFile(path.join(__dirname, 'jade',  template + '.jade'), _.defaults(opts, locals));
+            html = beautifyHTML(html);
             return html;
         };
 
