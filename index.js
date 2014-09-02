@@ -129,8 +129,6 @@ module.exports = function (app) {
         //
         ////////////////////////////
 
-        // todo: sort by updateTime
-
         var files = this.newFiles.concat(this.changedFiles, this.unchangedFiles);
 
         var posts = files.filter(function(file) {
@@ -148,6 +146,10 @@ module.exports = function (app) {
                 tags: file.tags,
                 link: file.link
             };
+        });
+
+        posts.sort(function(a, b) {
+            return (new Date(b.modificationTime)).getTime() - (new Date(a.modificationTime)).getTime();
         });
 
         var json = JSON.stringify(posts);
