@@ -3,7 +3,8 @@ var jade = require("jade"),
     fsPlus = require("co-fs-plus"),
     _ = require("lodash"),
     path = require("path"),
-    beautifyHTML = require('js-beautify').html;
+    beautifyHTML = require('js-beautify').html,
+    moment = require('moment');
 
 module.exports = function (app) {
     app.use(function *(next) {
@@ -134,6 +135,8 @@ module.exports = function (app) {
 
         var posts = files.filter(function(file) {
             return typeof file.content !== "undefined";
+        }).sort(function(a, b) {
+            return (new Date(b.modificationTime)).getTime() - (new Date(a.modificationTime)).getTime();
         }).map(function(file) {
             if(!file.link) {
                 file.link = path.join(path.dirname(file.path),
@@ -141,7 +144,7 @@ module.exports = function (app) {
             }
             
             return {
-                modificationTime: file.modificationTime,
+                modificationTime: moment(file.modificationTime).calendar(),
                 path: file.path,
                 title: file.title,
                 tags: file.tags,
@@ -149,9 +152,6 @@ module.exports = function (app) {
             };
         });
 
-        posts.sort(function(a, b) {
-            return (new Date(b.modificationTime)).getTime() - (new Date(a.modificationTime)).getTime();
-        });
 
         var json = JSON.stringify(posts);
 

@@ -32,4 +32,3 @@ search = (keyword) ->
 $('#search').on 'input', ->
     keyword = $(this).val()
     setTimeout (-> search keyword), 1
-
