@@ -12,3 +12,5 @@ class DB
             @todo.push fn
 
     filter: (fn) -> @data.filter fn
+
+module.exports = DB

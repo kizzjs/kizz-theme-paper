@@ -1,5 +1,5 @@
 # DB
-
+DB = require './db'
 window.db = new DB
 
 # Meta Data
