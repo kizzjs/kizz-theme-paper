@@ -1,48 +1,35 @@
-# DB
+# require
 DB = require './db'
-window.db = new DB
+View = require './view'
 
-# Meta Data
+# init
+window.db = new DB # exposed to window for JSONP
 
 baseURL = $('[rel="kizz-base-url"]').attr('href')
-
-# Helpers
-
-delay = (time, fn) -> setTimeout fn, time
+view = new View(baseURL)
 
 # Tag
 
 $('body').on 'click', 'li.tag', ->
     tag = $(this).text()
+    posts = db.filter (post) ->
+        post.tags.indexOf(tag) > -1
+    html = view.archives posts
+    $('#main').html html
 
 # Search
 
 search = (keyword) ->
-    kizzDB.ready ->
-        match = kizzDB.filter (post) ->
+    db.ready ->
+        match = db.filter (post) ->
             JSON.stringify(post).indexOf(keyword) > -1
         if match.length > 0
-            html = match.map (post) -> """
-<article>
-    <h1>
-        <a href="#{baseURL + '/' + post.link}">#{post.title}</a>
-    </h1>
-    <div class="meta">
-        <div class="key">Update:</div>
-        <div class="value">#{post.modificationTime}</div>
-        <div class="key">Tags:</div>
-        <div class="value">
-            <ul>
-                #{post.tags.map((tag) -> "<li class='tag'>" + tag + "</li>").join('')}
-            </ul>
-        </div>
-    </div>
-</article>"""
+            html = view.archives match
             $('#main').html html
         else
             $('#main').html '<div class="error">404 - Not Found</div>'
 
 $('#search').on 'input', ->
     keyword = $(this).val()
-    delay 1, -> search keyword
+    setTimeout (-> search keyword), 1
 

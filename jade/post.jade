@@ -10,7 +10,7 @@ block content
         .value #{post.modificationTime}
         .key Tags:
         .value
-          ul
+          ul.tags
             each tag in post.tags
               li.tag= tag
     main!= post.content

@@ -61,16 +61,20 @@ body
 .meta
   font-size 14px
   line-height 28px
+  &:after
+    content ''
+    display block
+    clear both
   ul, li
-    display inline-block
-  li
+    float left
+  .tag
     padding-right .5em
     &:hover
       color theme-color
       cursor pointer
       transition color .5s
   .key, .value
-    display inline-block
+    float left
     margin-right .5em
   .key
     font-weight bold

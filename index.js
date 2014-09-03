@@ -88,11 +88,12 @@ module.exports = function (app) {
         //
         ////////////////////////////
 
+        // todo: in helper: use walk and filter
         var staticFiles = [
             "styles.css",
             "js/prism.js",
             "js/jquery.min.js",
-            "js/main.js"
+            "js/bundle.js"
         ];
         yield staticFiles.map(function(file) {
             return copyFile(path.join(__dirname, 'static',  file),

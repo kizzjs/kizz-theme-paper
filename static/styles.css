@@ -174,21 +174,26 @@ body {
   font-size: 14px;
   line-height: 28px;
 }
+.meta:after {
+  content: '';
+  display: block;
+  clear: both;
+}
 .meta ul,
 .meta li {
-  display: inline-block;
+  float: left;
 }
-.meta li {
+.meta .tag {
   padding-right: 0.5em;
 }
-.meta li:hover {
+.meta .tag:hover {
   color: #1e90ff;
   cursor: pointer;
   transition: color 0.5s;
 }
 .meta .key,
 .meta .value {
-  display: inline-block;
+  float: left;
   margin-right: 0.5em;
 }
 .meta .key {
