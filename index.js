@@ -127,7 +127,7 @@ module.exports = function (app) {
 
         ////////////////////////////
         //
-        // update index.html & db.json
+        // update index.html & db.jsonp
         //
         ////////////////////////////
 
@@ -162,6 +162,16 @@ module.exports = function (app) {
         yield writeFile('index.html', render('archives', {
             baseURI: '.',
             posts: posts
+        }));
+
+        ////////////////////////////
+        //
+        // tags/index.html
+        //
+        ////////////////////////////
+
+        yield writeFile('tags/index.html', render('base', {
+            baseURI: '..'
         }));
 
     });

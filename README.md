@@ -11,3 +11,5 @@ Default theme for KIZZ
 - Frontend based searching
 
 - Syntax Highlighting (prismjs)
+
+- Works in `file://`
