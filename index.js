@@ -116,7 +116,13 @@ module.exports = function (app) {
                 return writeFile(target + '.html', render('post', {
                     baseURI: path.relative(path.join(ctx.config.target, path.dirname(file.path)),
                                            ctx.config.target),
-                    post: file
+                    post: {
+                        modificationTime: moment(file.modificationTime).calendar(),
+                        path: file.path,
+                        title: file.title,
+                        tags: file.tags,
+                        link: file.link
+                    }
                 }));
             } else {
                 // copy static files
