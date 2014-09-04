@@ -4,12 +4,12 @@ Default theme for KIZZ
 
 ## Features
 
-- Jade based
+- Tags
 
-- Frontend based tag
-
-- Frontend based searching
+- Frontend fly-searching
 
 - Syntax Highlighting (prismjs)
 
 - Works in `file://`
+
+- Jade based

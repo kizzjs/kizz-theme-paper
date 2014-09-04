@@ -136,7 +136,7 @@ module.exports = function (app) {
         var posts = files.filter(function(file) {
             return typeof file.content !== "undefined";
         }).sort(function(a, b) {
-            return (new Date(b.modificationTime)).getTime() - (new Date(a.modificationTime)).getTime();
+            return (new Date(b.creationTime)).getTime() - (new Date(a.creationTime)).getTime();
         }).map(function(file) {
             if(!file.link) {
                 file.link = path.join(path.dirname(file.path),
