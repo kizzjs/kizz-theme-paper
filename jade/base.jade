@@ -1,10 +1,13 @@
 doctype html
-html(charset="UTF-8")
+html
   head
-    link(rel="kizz-base-url", href="#{baseURL('')}")
-    link(rel="stylesheet", href="#{baseURL('static/styles.css')}")
+    meta(charset="UTF-8")
+    meta(name="generator", content="Kizz")
+    meta(name="kizz-base-url", content="#{baseURL('')}")
+    block head
     block title
       title #{site.name}
+    link(rel="stylesheet", href="#{baseURL('static/styles.css')}")
   body
     header#header
       h1

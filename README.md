@@ -15,3 +15,9 @@ Default theme for KIZZ
 - Jade based
 
 - Feed (Atom 1.0)
+
+## FAQ
+
+### Why <meta>
+
+http://wiki.whatwg.org/wiki/MetaExtensions

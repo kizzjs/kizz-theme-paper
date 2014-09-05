@@ -95,7 +95,6 @@ module.exports = function (app) {
         // todo: in helper: use walk and filter
         var staticFiles = [
             "styles.css",
-            "js/prism.js",
             "js/bundle.js"
         ];
         yield staticFiles.map(function(file) {
@@ -214,11 +213,11 @@ module.exports = function (app) {
         //
         ////////////////////////////
 
-        yield writeFile('tags/index.html', render('base', {
+        yield writeFile('tags/index.html', render('tags', {
             baseURI: '..'
         }));
 
-        yield writeFile('search/index.html', render('base', {
+        yield writeFile('search/index.html', render('search', {
             baseURI: '..'
         }));
 

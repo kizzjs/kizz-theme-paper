@@ -6,7 +6,7 @@ $ = require 'jquery'
 Prism = require './prism'
 
 # base
-baseURL = $('[rel="kizz-base-url"]').attr('href')
+baseURL = $('[name="kizz-base-url"]').attr('content')
 
 # load data
 window.db = new DB # exposed to window for JSONP
@@ -17,6 +17,13 @@ view = new View(baseURL)
 isFileProtocol = -> location.protocol.indexOf('file') is 0
 
 # Tag
+
+dispalyTag = (tag) ->
+    db.ready ->
+        posts = db.filter (post) ->
+            post.tags.indexOf(tag) > -1
+        html = view.archives posts
+        $('#main').html html
 
 $('body').on 'click', 'li.tag', ->
     tag = $(this).text()
@@ -29,10 +36,7 @@ $('body').on 'click', 'li.tag', ->
     else
         window.location.href = url
 
-    posts = db.filter (post) ->
-        post.tags.indexOf(tag) > -1
-    html = view.archives posts
-    $('#main').html html
+    dispalyTag tag
 
 # Search
 
@@ -58,3 +62,15 @@ $('#search').on 'input', ->
         window.location.href = url
 
     setTimeout (-> search keyword), 1
+
+# router
+
+$meta = $('[name="kizz-router"]')
+if $meta.length > 0
+    arg = location.hash.substring(1)
+    router = $meta.attr('content')
+    if router is 'tags'
+        dispalyTag arg
+    if router is 'search'
+        search arg
+        $('#search').focus()
