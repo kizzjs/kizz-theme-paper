@@ -34,7 +34,7 @@ module.exports = function (app) {
             file = path.join(ctx.config.target, file);
             ctx.logger.info('WriteFile: ' + file);
             yield fsPlus.mkdirp(path.dirname(file));
-            yield fs.writeFile(file, data);
+            yield fs.writeFile(file, data, {encoding: 'UTF-8'});
         };
 
         var copyFile = function *(from, to) {
@@ -96,7 +96,6 @@ module.exports = function (app) {
         var staticFiles = [
             "styles.css",
             "js/prism.js",
-            "js/jquery.min.js",
             "js/bundle.js"
         ];
         yield staticFiles.map(function(file) {
@@ -210,11 +209,16 @@ module.exports = function (app) {
 
         ////////////////////////////
         //
-        // tags/index.html
+        // tags/
+        // search/
         //
         ////////////////////////////
 
         yield writeFile('tags/index.html', render('base', {
+            baseURI: '..'
+        }));
+
+        yield writeFile('search/index.html', render('base', {
             baseURI: '..'
         }));
 

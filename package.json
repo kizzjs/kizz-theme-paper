@@ -12,6 +12,7 @@
     "moment": "^2.8.2"
   },
   "devDependencies": {
+    "jquery": "^2.1.1",
     "node-watch": "^0.3.4"
   }
 }

@@ -1,9 +1,6 @@
 doctype html
 html(charset="UTF-8")
   head
-    // To view prerender
-    // use chrome://net-internals/#prerender instead of dev tools
-    // or it will be canceled
     link(rel="kizz-base-url", href="#{baseURL('')}")
     link(rel="stylesheet", href="#{baseURL('static/styles.css')}")
     block title
@@ -18,9 +15,4 @@ html(charset="UTF-8")
       block content
     footer#footer
       | Copyright (C) Kizz Team. All rights reserved.
-    script
-    
-    script(src="#{baseURL('static/js/prism.js')}")
-    script(src="#{baseURL('static/js/jquery.min.js')}")
     script(src="#{baseURL('static/js/bundle.js')}")
-    script(src="#{baseURL('db.jsonp')}")
