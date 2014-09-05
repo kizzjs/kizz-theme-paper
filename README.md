@@ -13,3 +13,5 @@ Default theme for KIZZ
 - Works in `file://`
 
 - Jade based
+
+- Feed (Atom 1.0)

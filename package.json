@@ -4,6 +4,7 @@
   "dependencies": {
     "co-fs": "^1.2.0",
     "co-fs-plus": "^0.3.1",
+    "feed": "^0.2.6",
     "jade": "^1.5.0",
     "js-beautify": "^1.5.1",
     "lodash": "^2.4.1",

@@ -3,8 +3,10 @@ var jade = require("jade"),
     fsPlus = require("co-fs-plus"),
     _ = require("lodash"),
     path = require("path"),
+    url = require('url'),
     beautifyHTML = require('js-beautify').html,
-    moment = require('moment');
+    moment = require('moment'),
+    Feed = require('feed');
 
 module.exports = function (app) {
     app.use(function *(next) {
@@ -13,6 +15,8 @@ module.exports = function (app) {
         yield next;
 
         var ctx = this;
+
+        // ctx.logger.debug(ctx);
 
         var render = function(template, locals) {
             var opts = {
@@ -48,7 +52,8 @@ module.exports = function (app) {
         //
         ////////////////////////////
 
-        if(this.argv[2] === "rebuild" && isNaN(parseInt(this.argv[3]))) {
+        if(this.unchangedFiles.length === 0) {
+            // it's total rebuild
             this.logger.info('Remove Directory: ' + this.config.target);
             yield fsPlus.rimraf(this.config.target);
         } else {
@@ -121,7 +126,8 @@ module.exports = function (app) {
                         path: file.path,
                         title: file.title,
                         tags: file.tags,
-                        link: file.link
+                        link: file.link,
+                        content: file.content
                     }
                 }));
             } else {
@@ -148,7 +154,40 @@ module.exports = function (app) {
                 file.link = path.join(path.dirname(file.path),
                                       path.basename(file.path, path.extname(file.path)) + ".html");
             }
-            
+            return file;
+        });
+
+        // Feed (ATOM 1.0)
+
+        if(typeof ctx.config.site.url === "undefined") {
+
+            this.logger.warn('Fail to generate feed: ctx.config.site.url undefined!');
+
+        } else {
+
+            var feed = new Feed({
+                title: ctx.config.site.name,
+                description: ctx.config.site.description,
+                link: ctx.config.site.url,
+                updated: new Date()
+            });
+
+            posts.slice(0, 5).forEach(function(post, index) {
+                var link = url.resolve(ctx.config.site.url, post.link);
+                feed.addItem({
+                    title: post.title,
+                    link: link,
+                    date: new Date(post.modificationTime),
+                    content: post.content
+                });
+            });
+
+            yield writeFile('feed.xml', feed.render('atom-1.0'));
+        } 
+
+        // db.jsonp
+
+        posts = posts.map(function(file) {
             return {
                 modificationTime: moment(file.modificationTime).calendar(),
                 path: file.path,
@@ -158,12 +197,13 @@ module.exports = function (app) {
             };
         });
 
-
         var json = JSON.stringify(posts);
 
         var jsonp = 'db.setData(' + json + ');';
 
         yield writeFile('db.jsonp', jsonp);
+
+        // index.html
 
         yield writeFile('index.html', render('archives', {
             baseURI: '.',
