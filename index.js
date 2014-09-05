@@ -16,8 +16,6 @@ module.exports = function (app) {
 
         var ctx = this;
 
-        // ctx.logger.debug(ctx);
-
         var render = function(template, locals) {
             var opts = {
                 pretty: false,
