@@ -109,8 +109,6 @@ body,
 header,
 footer,
 a,
-ul,
-li,
 h1,
 p {
   padding: 0;
@@ -123,10 +121,6 @@ code,
 pre {
   font-size: 14px;
   font-family: 'Source Code Pro' !important;
-}
-ul,
-li {
-  list-style: none;
 }
 a {
   text-decoration: none;
@@ -183,6 +177,9 @@ body {
 }
 .meta ul,
 .meta li {
+  list-style: none;
+  padding: 0;
+  margin: 0;
   float: left;
 }
 .meta .tag {
