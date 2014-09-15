@@ -182,10 +182,12 @@ body {
   margin: 0;
   float: left;
 }
-.meta .tag {
+.meta .tag,
+.meta .cat {
   padding-right: 0.5em;
 }
-.meta .tag:hover {
+.meta .tag:hover,
+.meta .cat:hover {
   color: #1e90ff;
   cursor: pointer;
   transition: color 0.5s;

@@ -10,14 +10,10 @@ Default theme for KIZZ
 
 - Syntax Highlighting (prismjs)
 
-- Works in `file://`
-
 - Jade based
 
 - Feed (Atom 1.0)
 
-## FAQ
-
-### Why <meta>
+## Links
 
 http://wiki.whatwg.org/wiki/MetaExtensions

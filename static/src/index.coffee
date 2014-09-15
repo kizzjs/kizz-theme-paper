@@ -14,11 +14,9 @@ helper.loadScript (baseURL+'/db.jsonp')
 
 view = new View(baseURL)
 
-isFileProtocol = -> location.protocol.indexOf('file') is 0
-
 # Tag
 
-dispalyTag = (tag) ->
+displayTag = (tag) ->
     db.ready ->
         posts = db.filter (post) ->
             post.tags.indexOf(tag) > -1
@@ -29,14 +27,9 @@ $('body').on 'click', 'li.tag', ->
     tag = $(this).text()
 
     url = baseURL + "/tags/"
-    url += "index.html" if isFileProtocol()
     url += "#" + tag
-    unless isFileProtocol()
-        history.pushState({}, "Tag: #{tag}", url);
-    else
-        window.location.href = url
-
-    dispalyTag tag
+    history.pushState({}, "Tag: #{tag}", url);
+    displayTag tag
 
 # Search
 
@@ -54,13 +47,8 @@ $('#search').on 'input', ->
     keyword = $(this).val()
 
     url = baseURL + "/search/"
-    url += "index.html" if isFileProtocol()
     url += "#" + keyword
-    unless isFileProtocol()
-        history.pushState({}, "Search: #{keyword}", url);
-    else
-        window.location.href = url
-
+    history.pushState({}, "Search: #{keyword}", url);
     setTimeout (-> search keyword), 1
 
 # router
@@ -70,7 +58,10 @@ if $meta.length > 0
     arg = location.hash.substring(1)
     router = $meta.attr('content')
     if router is 'tags'
-        dispalyTag arg
+        displayTag arg
+    if router is 'categories'
+        displayCategory arg
     if router is 'search'
         search arg
+        $('#search').val arg
         $('#search').focus()

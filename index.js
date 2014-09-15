@@ -6,7 +6,8 @@ var jade = require("jade"),
     url = require('url'),
     beautifyHTML = require('js-beautify').html,
     moment = require('moment'),
-    Feed = require('feed');
+    helper = require('./lib/helper'),
+    Feed = helper.Feed;
 
 module.exports = function (app) {
     app.use(function *(next) {
@@ -119,6 +120,7 @@ module.exports = function (app) {
                                            ctx.config.target),
                     post: {
                         modificationTime: moment(file.modificationTime).calendar(),
+                        categories: file.categories,
                         path: file.path,
                         title: file.title,
                         tags: file.tags,
@@ -189,6 +191,7 @@ module.exports = function (app) {
                 path: file.path,
                 title: file.title,
                 tags: file.tags,
+                categories: file.categories,
                 link: file.link
             };
         });
@@ -210,6 +213,7 @@ module.exports = function (app) {
         //
         // tags/
         // search/
+        // categories/
         //
         ////////////////////////////
 
@@ -218,6 +222,10 @@ module.exports = function (app) {
         }));
 
         yield writeFile('search/index.html', render('search', {
+            baseURI: '..'
+        }));
+
+        yield writeFile('categories/index.html', render('categories', {
             baseURI: '..'
         }));
 
