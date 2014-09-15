@@ -51,12 +51,12 @@ module.exports = function (app) {
         //
         ////////////////////////////
 
-        if(this.unchangedFiles.length === 0) {
-            // it's total rebuild
-            this.logger.info('Remove Directory: ' + this.config.target);
-            yield fsPlus.rimraf(this.config.target);
-        } else {
-            yield this.removedFiles.map(function(file) {
+        if(this.files.some(function(file) {
+            return file.status === "modified";
+        })) {
+            yield this.files.filter(function(file) {
+                return file.status === "deleted";
+            }).map(function(file) {
                 var filePath;
                 if(typeof file.content !== "undefined") {
                     filePath = path.join(path.dirname(file.path), path.basename(file.path, path.extname(file.path)) + '.html');
@@ -84,7 +84,11 @@ module.exports = function (app) {
                         ctx.logger.error(e);
                     }
                 };
-            });
+            });            
+        } else {
+            // it's rebuild!
+            this.logger.info('Remove Directory: ' + this.config.target);
+            yield fsPlus.rimraf(this.config.target);
         }
 
         ////////////////////////////
@@ -109,7 +113,9 @@ module.exports = function (app) {
         //
         ////////////////////////////
 
-        yield this.changedFiles.concat(this.newFiles).map(function(file) {
+        yield this.files.filter(function(file) {
+            return file.status === "modified";
+        }).map(function(file) {
             if(typeof file.content !== "undefined") {
                 var target = path.join(
                     path.dirname(file.path),
@@ -141,7 +147,9 @@ module.exports = function (app) {
         //
         ////////////////////////////
 
-        var files = this.newFiles.concat(this.changedFiles, this.unchangedFiles);
+        var files = this.files.filter(function(file) {
+            return file.status !== "deleted";
+        });
 
         var posts = files.filter(function(file) {
             return typeof file.content !== "undefined";
