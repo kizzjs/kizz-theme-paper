@@ -19,34 +19,40 @@ code, pre
 
 a
   text-decoration none
-  color theme-color
+  color #333
   transition color .5s
   &:hover
-    color darken(theme-color, 25%)
+    color #000
 
 h1
   font-size 36px
 
+font-hei()  
+  font-family "Helvetica Neue", Helvetica, "Nimbus Sans L", Arial, "Liberation Sans", "Hiragino Sans GB", "Source Han Sans CN Normal", "Microsoft YaHei", "Wenquanyi Micro Hei", "WenQuanYi Zen Hei", "ST Heiti", SimHei, "WenQuanYi Zen Hei Sharp", sans-serif
+
 body
   background #fff
   color #555
-  font-family "Helvetica Neue", Helvetica, "Nimbus Sans L", Arial, "Liberation Sans", "Hiragino Sans GB", "Source Han Sans CN Normal", "Microsoft YaHei", "Wenquanyi Micro Hei", "WenQuanYi Zen Hei", "ST Heiti", SimHei, "WenQuanYi Zen Hei Sharp", sans-serif
+  font-hei()
 
 #header
   padding inner-padding
-  border-bottom 1px solid theme-color
-  // background-image radial-gradient(farthest-corner at 100px 45px , theme-color 0%, hue(theme-color, 60deg) 100%);
-  font-weight bold
   color theme-color
   text-align center
+  font-size 24px
+  color #111
   h1
     font-size 36px
-    background theme-color
     display inline-block
     padding .3em
     margin-bottom .25em
+    font-weight bold
     a
-      color #fff
+      color #111
+      &:hover
+        color theme-color
+
+
 
 #main
   padding inner-padding

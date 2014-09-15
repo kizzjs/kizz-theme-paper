@@ -209,6 +209,9 @@ module.exports = function (app) {
             posts: posts
         }));
 
+        // comments
+        yield writeFile('comments.html', this.config.comments);
+
         ////////////////////////////
         //
         // tags/

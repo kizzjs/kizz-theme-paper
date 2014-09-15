@@ -57,6 +57,9 @@ $meta = $('[name="kizz-router"]')
 if $meta.length > 0
     arg = location.hash.substring(1)
     router = $meta.attr('content')
+    if router is 'post'
+        $.get baseURL+'/comments.html', (data) ->
+            $('#comments').html data
     if router is 'tags'
         displayTag arg
     if router is 'categories'
@@ -65,3 +68,4 @@ if $meta.length > 0
         search arg
         $('#search').val arg
         $('#search').focus()
+

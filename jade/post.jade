@@ -1,5 +1,8 @@
 extends ./base.jade
 
+block head
+  meta(name="kizz-router", content="post")
+
 block content
   article
     header
@@ -19,3 +22,4 @@ block content
             each cat in post.categories
               li.cat= cat
     main!= post.content
+    #comments
