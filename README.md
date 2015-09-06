@@ -1,6 +1,9 @@
-# kizz-theme-paper
+# kizz-theme-material
 
-Default theme for KIZZ
+Default theme for Kizz.
+Powered by react and material-ui.
+
+Still working.
 
 ## Features
 
